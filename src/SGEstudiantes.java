@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,7 +20,6 @@ public class SGEstudiantes {
     private JLabel semestre;
     private JLabel promedio;
     private JLabel contrasena;
-    private JMenu Color;
     private JTable tabler;
     private JTable tabled;
     private JLabel lblImagen;
@@ -42,7 +42,7 @@ public class SGEstudiantes {
         tabler.setModel(tableModel);
 
         // Agregar una fila por defecto a la tabla tabler
-        Object[] defaultRow = {"N|E."+numeroEstudiante++, "Nombre", "Curso", "Semestre", "Promedio"};
+        Object[] defaultRow = {"N|E." + numeroEstudiante++, "Nombre", "Curso", "Semestre", "Promedio"};
         tableModel.addRow(defaultRow);
 
         // tabla tabled
@@ -75,7 +75,7 @@ public class SGEstudiantes {
         String estado = calcularEstado(promedioDouble);
 
         // Agregar una fila a la tabla tabled
-        Object[] rowDataTabled = { nombreEstudiante, estado};
+        Object[] rowDataTabled = {nombreEstudiante, estado};
         tabledModel.addRow(rowDataTabled);
 
         // Limpiar los campos
@@ -99,5 +99,34 @@ public class SGEstudiantes {
 
     private void createUIComponents() {}
 
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("SGEstudiantes");
+        SGEstudiantes sgEstudiantes = new SGEstudiantes();
+
+        // Crear el JMenuItem "Archivo" y asociar ActionListener para cambiar el color del JPanel
+        JMenuItem archivoItem = new JMenuItem("Archivo");
+        archivoItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sgEstudiantes.Sistema.setBackground(Color.RED);
+            }
+        });
+
+        // Crear el JMenu "Archivo" y agregar el JMenuItem
+        JMenu archivoMenu = new JMenu("Archivo");
+        archivoMenu.add(archivoItem);
+
+        // Crear la barra de menú y agregar el JMenu "Archivo"
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.add(archivoMenu);
+
+        // Asignar la barra de menú al JFrame
+        frame.setJMenuBar(menuBar);
+
+        frame.setContentPane(sgEstudiantes.Sistema);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 }
 
