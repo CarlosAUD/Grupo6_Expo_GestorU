@@ -23,6 +23,7 @@ public class SGEstudiantes {
     private JTable tabler;
     private JTable tabled;
     private JLabel lblImagen;
+    private JTextPane Observacion;
     private DefaultTableModel tableModel;
     private DefaultTableModel tabledModel;
     private int numeroEstudiante = 0; // Inicializar el número de estudiante
@@ -42,7 +43,7 @@ public class SGEstudiantes {
         tabler.setModel(tableModel);
 
         // Agregar una fila por defecto a la tabla tabler
-        Object[] defaultRow = {"N|E." + numeroEstudiante++, "Nombre", "Curso", "Semestre", "Promedio"};
+        Object[] defaultRow = {"N°E." + numeroEstudiante++, "Nombre", "Curso", "Semestre", "Promedio"};
         tableModel.addRow(defaultRow);
 
         // tabla tabled
@@ -58,6 +59,30 @@ public class SGEstudiantes {
         String semestreEstudiante = Isemestre.getText();
         String promedioEstudiante = Ipromedio.getText();
         char[] contrasenaEstudiante = contrasenaE.getPassword();
+
+        // Validar que Isemestre contenga un número válido entre 1 y 10
+        try {
+            int semestreInt = Integer.parseInt(semestreEstudiante);
+            if (semestreInt < 1 || semestreInt > 10) {
+                JOptionPane.showMessageDialog(Sistema, "Ingrese un valor numérico válido para el semestre (entre 1 y 10).", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(Sistema, "Ingrese un valor numérico válido para el semestre (entre 1 y 10).", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que Ipromedio contenga un número válido entre 1 y 20
+        try {
+            double promedioDouble = Double.parseDouble(promedioEstudiante);
+            if (promedioDouble < 1 || promedioDouble > 20) {
+                JOptionPane.showMessageDialog(Sistema, "Ingrese un valor numérico válido para el promedio (entre 1 y 20) o con punto.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(Sistema, "Ingrese un valor numérico válido para el promedio (entre 1 y 20) o con punto.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Validar la contraseña
         String contrasenaIngresada = new String(contrasenaEstudiante);
@@ -97,36 +122,5 @@ public class SGEstudiantes {
         return "";
     }
 
-    private void createUIComponents() {}
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("SGEstudiantes");
-        SGEstudiantes sgEstudiantes = new SGEstudiantes();
-
-        // Crear el JMenuItem "Archivo" y asociar ActionListener para cambiar el color del JPanel
-        JMenuItem archivoItem = new JMenuItem("Archivo");
-        archivoItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sgEstudiantes.Sistema.setBackground(Color.RED);
-            }
-        });
-
-        // Crear el JMenu "Archivo" y agregar el JMenuItem
-        JMenu archivoMenu = new JMenu("Archivo");
-        archivoMenu.add(archivoItem);
-
-        // Crear la barra de menú y agregar el JMenu "Archivo"
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.add(archivoMenu);
-
-        // Asignar la barra de menú al JFrame
-        frame.setJMenuBar(menuBar);
-
-        frame.setContentPane(sgEstudiantes.Sistema);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 }
 
